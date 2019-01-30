@@ -1,0 +1,80 @@
+# -*- coding: utf-8 -*-
+# encoding = utf-8
+import jieba
+import jieba.analyse
+
+jieba.suggest_freq('沙瑞金', True)
+jieba.suggest_freq('田国富', True)
+jieba.suggest_freq('高育良', True)
+jieba.suggest_freq('侯亮平', True)
+jieba.suggest_freq('钟小艾', True)
+jieba.suggest_freq('陈岩石', True)
+jieba.suggest_freq('欧阳菁', True)
+jieba.suggest_freq('易学习', True)
+jieba.suggest_freq('王大路', True)
+jieba.suggest_freq('蔡成功', True)
+jieba.suggest_freq('孙连城', True)
+jieba.suggest_freq('季昌明', True)
+jieba.suggest_freq('丁义珍', True)
+jieba.suggest_freq('郑西坡', True)
+jieba.suggest_freq('赵东来', True)
+jieba.suggest_freq('高小琴', True)
+jieba.suggest_freq('赵瑞龙', True)
+jieba.suggest_freq('林华华', True)
+jieba.suggest_freq('陆亦可', True)
+jieba.suggest_freq('刘新建', True)
+jieba.suggest_freq('刘庆祝', True)
+
+with open(r'D:/in_the_name_of_people.txt','rb') as f:
+    document = f.read()
+    
+    # document_decode = document.encode('GBK')
+    
+    document_cut = jieba.cut(document)
+    #print  ' '.join(jieba_cut)  //如果打印结果，则分词效果消失，后面的result无法显示
+    result = ' '.join(document_cut)
+    result = result.encode('utf-8')
+    with open(r'D:/in_the_name_of_people_segment.txt','wb+') as f2:
+        f2.write(result)
+        
+f.close()
+f2.close()
+
+import logging
+import os
+from gensim.models import word2vec
+
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
+sentences = word2vec.LineSentence(r'D:/in_the_name_of_people_segment.txt') 
+
+model = word2vec.Word2Vec(sentences, hs=1, min_count=1, window=3,size=100)  
+
+req_count = 5
+for key in model.wv.similar_by_word('沙瑞金',topn =100):
+    if len(key[0])==3:
+        req_count -= 1
+        print (key[0], key[1])
+        if req_count == 0:
+            break;
+
+print(model ['沙瑞金'])
+
+the result is:
+[ 0.57659924 -0.6522388   0.07303995 -0.21783736 -0.33403286 -0.8237895
+  0.32808077  0.06979216 -0.45360008  0.19411427 -0.36630577  0.3681165
+  0.43335876 -0.38998693 -0.45310655 -0.12218934  0.23247403 -0.12288909
+ -0.60977507  0.376091    0.11109079 -0.52643037  0.42901927 -0.26962027
+  0.16665314 -0.40050194  1.0350306  -1.0903785  -0.37057573 -0.51657015
+  0.16772275 -0.12094046  0.20086691  0.852361   -0.45766243  0.31094995
+ -0.3979244   0.66363996 -0.44025624  0.4890478   0.65020585 -0.01083795
+ -0.35306662 -0.8729582  -0.46566948  0.21028042 -0.4286785  -0.04104354
+ -0.11602584 -0.12648545 -0.03892701 -0.16365206 -0.43293232 -0.8148325
+ -0.6818783   0.6428241  -0.48279238  0.1150907  -0.04692074  0.1540051
+  1.0971179   0.5375588  -0.36183771 -0.73962384 -0.2010657  -0.6179556
+ -0.25334236  0.04584611 -0.17588052 -1.0053868  -0.11095857  0.07853621
+ -0.05574888  0.991977   -0.34899256 -0.31870416  0.61267346 -0.9373016
+ -0.41747198  0.11662829 -0.48976082 -0.5977584  -0.1563485   0.03429506
+  1.1211768   0.56941974  0.62467194 -0.5901042   0.46771413  0.24096474
+  0.8131803   0.23339713 -0.59860593  0.14395653 -0.3319759   0.19212843
+  0.21045029  0.24126352 -0.68411505  0.16331054]
