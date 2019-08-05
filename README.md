@@ -10,13 +10,14 @@ doc2bow是Gensim中封装的一个方法，主要的核心是Bow模型（词袋�
 
 先给出两个简单的例子
 > Do you like me?
+
 > Do you love me?
 
-首先根据上面的两个例子简历词典
+首先根据上面的两个例子建立词典
 
 >{"Do":1, "you":2, "love":3, "like":4, "me":5}
 
 所以`Do you like me?`可以表示为`1, 1, 0, 1, 1`
 因此`Do you love me?`可以表示为`1, 1, 1, 0, 1`
 
-所以利用余弦计算相似度 sim=cos(α) = \frac{\vec{A}\cdot \vec{B}}{\left \| A \right \|\cdot \left \| B \right \|}
+所以利用余弦计算相似度 sim=cos(α) = <a href="https://www.codecogs.com/eqnedit.php?latex=\frac{\vec{A}\cdot&space;\vec{B}}{\left&space;\|&space;A&space;\right&space;\|\cdot&space;\left&space;\|&space;B&space;\right&space;\|}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{\vec{A}\cdot&space;\vec{B}}{\left&space;\|&space;A&space;\right&space;\|\cdot&space;\left&space;\|&space;B&space;\right&space;\|}" title="\frac{\vec{A}\cdot \vec{B}}{\left \| A \right \|\cdot \left \| B \right \|}" /></a>
